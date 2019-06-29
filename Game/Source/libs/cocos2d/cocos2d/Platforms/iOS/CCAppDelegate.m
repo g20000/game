@@ -24,6 +24,8 @@
  */
 
 #import "../../ccMacros.h"
+#import "../../../../MainSceneObjC.h"
+
 #if __CC_PLATFORM_IOS
 
 #import "CCAppDelegate.h"
@@ -276,6 +278,30 @@ FindPOTScale(CGFloat size, CGFloat fixedSize)
         [[UIApplication sharedApplication] setStatusBarOrientation:UIDeviceOrientationLandscapeLeft | UIDeviceOrientationLandscapeRight];
     }
 #endif
+}
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    NSDictionary *cocos2dSettings = @{CCSetupScreenOrientation : CCScreenOrientationLandscape,
+                                      // We really want to use exclusive assets for iPad
+                                      CCSetupTabletScale2X     : @(false),
+                                      // Show FPS
+                                      // We really want this when developing an app
+                                      CCSetupShowDebugStats    : @(true)};
+    [self setupCocos2dWithOptions:cocos2dSettings];
+    
+    CCFileUtils.sharedFileUtils.suffixesDict = @{CCFileUtilsSuffixiPad : @"-2x",
+                                              CCFileUtilsSuffixiPadHD : @"-4x",
+                                              CCFileUtilsSuffixiPhone : @"-1x",
+                                                 CCFileUtilsSuffixiPhoneHD : @"-1x",
+                                                 CCFileUtilsSuffixiPhone5 : @"-1x",
+                                                 CCFileUtilsSuffixiPhone5HD : @"-2x",
+                                                 CCFileUtilsSuffixDefault : @""}.mutableCopy;
+    
+    CCDirector *director = CCDirector.sharedDirector;
+    MainSceneObjC *mainScene = MainSceneObjC.new;
+    [director runWithScene:mainScene];
+    return YES;
 }
 
 // getting a call, pause the game
