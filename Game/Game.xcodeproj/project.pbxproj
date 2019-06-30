@@ -32,6 +32,7 @@
 		08BA20971C78718E00263AF8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BA20961C78718E00263AF8 /* AppDelegate.swift */; };
 		08BA20981C78718E00263AF8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BA20961C78718E00263AF8 /* AppDelegate.swift */; };
 		08BA209A1C7873EC00263AF8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BA20991C7873EC00263AF8 /* AppDelegate.swift */; };
+		4216C57822C92094001326E8 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 4216C57722C92094001326E8 /* config.xml */; };
 		429F037022C8279B008FDAFE /* MainSceneObjC.m in Sources */ = {isa = PBXBuildFile; fileRef = 429F036F22C8279B008FDAFE /* MainSceneObjC.m */; };
 		7A046D7919E84ED5004C4763 /* MainScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A046D7519E84C36004C4763 /* MainScene.swift */; };
 		7A10CE5619F32FB0001673C3 /* MainScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A046D7519E84C36004C4763 /* MainScene.swift */; };
@@ -93,6 +94,7 @@
 		08BA20921C7865E600263AF8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		08BA20961C78718E00263AF8 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Source/Platforms/iOS/AppDelegate.swift; sourceTree = "<group>"; };
 		08BA20991C7873EC00263AF8 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Source/Platforms/Mac/AppDelegate.swift; sourceTree = "<group>"; };
+		4216C57722C92094001326E8 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
 		429F036E22C8279B008FDAFE /* MainSceneObjC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainSceneObjC.h; sourceTree = "<group>"; };
 		429F036F22C8279B008FDAFE /* MainSceneObjC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainSceneObjC.m; sourceTree = "<group>"; };
 		5B12100919748273004C1E1D /* libEGL.so */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libEGL.so; path = /usr/lib/armv7a/libEGL.so; sourceTree = SDKROOT; };
@@ -200,6 +202,14 @@
 			);
 			name = tvOS;
 			path = ../..;
+			sourceTree = "<group>";
+		};
+		4216C57322C91ECF001326E8 /* Routes */ = {
+			isa = PBXGroup;
+			children = (
+				4216C57722C92094001326E8 /* config.xml */,
+			);
+			path = Routes;
 			sourceTree = "<group>";
 		};
 		429F036A22C820EA008FDAFE /* MainSceneObjC */ = {
@@ -310,6 +320,7 @@
 			children = (
 				B737893C1807616C0076A88C /* Source */,
 				B77F1B4617B978D7009739AE /* Resources */,
+				4216C57322C91ECF001326E8 /* Routes */,
 				9222E2B918734FF800A246C7 /* libs */,
 				B77F1CCF17B978D8009739AE /* Supporting Files */,
 				B77F1B3017B978D7009739AE /* Frameworks */,
@@ -535,6 +546,7 @@
 				08BA20931C7865E600263AF8 /* Images.xcassets in Resources */,
 				B737893B180761570076A88C /* Published-iOS in Resources */,
 				08BA20211C785F1C00263AF8 /* ic_launcher.png in Resources */,
+				4216C57822C92094001326E8 /* config.xml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

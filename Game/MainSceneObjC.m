@@ -15,15 +15,18 @@
 {
     self = [super init];
     if (self) {
-        CCSprite *sprite = [CCSprite spriteWithImageNamed:@"ic_launcher.png"];
-        sprite.position = ccp(0.5, 0.5);
-        sprite.positionType = CCPositionTypeNormalized;
-        [self addChild:sprite];
+//        CCSprite *sprite = [CCSprite spriteWithImageNamed:@"ic_launcher.png"];
+//        sprite.position = ccp(0.5, 0.5);
+//        sprite.positionType = CCPositionTypeNormalized;
+//        [self addChild:sprite];
+//
+//        CCLabelTTF *label = [CCLabelTTF labelWithString:@"Hello World" fontName:@"ArialMT" fontSize:16];
+//        label.position = ccp(0.5, 0.25);
+//        label.positionType = CCPositionTypeNormalized;
+//        [self addChild:label];
         
-        CCLabelTTF *label = [CCLabelTTF labelWithString:@"Hello World" fontName:@"ArialMT" fontSize:16];
-        label.position = ccp(0.5, 0.25);
-        label.positionType = CCPositionTypeNormalized;
-        [self addChild:label];
+        
+        
     }
     return self;
 }
