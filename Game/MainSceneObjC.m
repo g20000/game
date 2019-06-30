@@ -25,7 +25,10 @@
 //        label.positionType = CCPositionTypeNormalized;
 //        [self addChild:label];
         
-        
+        // Load background image
+        CCSprite *background = [CCSprite spriteWithImageNamed:@"_room.png"];
+        background.anchorPoint = ccp(0,0);
+        [self addChild:background];
         
     }
     return self;
