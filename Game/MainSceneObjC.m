@@ -15,6 +15,8 @@
 
 @property (nonatomic) XMLDataProvider *dataProvider;
 
+@property (nonatomic) CCSprite *background;
+
 @end
 
 @implementation MainSceneObjC
@@ -62,9 +64,10 @@
 - (void)drawBackground
 {
     NSArray *assetPathParts = [self.dataProvider.backgroundValue componentsSeparatedByString:@"/"];
-    CCSprite *background = [CCSprite spriteWithImageNamed:assetPathParts.lastObject];
-    background.anchorPoint = ccp(0,0);
-    [self addChild:background];
+    self.background = [CCSprite spriteWithImageNamed:assetPathParts.lastObject];
+    self.background.anchorPoint = ccp(0,0);
+    self.background.scaleType = CCScaleTypePoints;
+    [self addChild:self.background];
 }
 
 - (void)drawItems
@@ -74,7 +77,7 @@
         CCSprite *itemSprite = [CCSprite spriteWithImageNamed:assetPathParts.lastObject];
         itemSprite.position = ccp(item.coordinate.x / 1000, item.coordinate.y / 1000);
         itemSprite.positionType = CCPositionTypeNormalized;
-        [self addChild:itemSprite];
+        [self.background addChild:itemSprite];
     }
 }
 
