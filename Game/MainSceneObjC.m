@@ -8,6 +8,7 @@
 
 #import "MainSceneObjC.h"
 #import "CCSprite.h"
+#import "XMLDataProvider.h"
 
 @implementation MainSceneObjC
 
@@ -30,6 +31,10 @@
         background.anchorPoint = ccp(0,0);
         [self addChild:background];
         
+        XMLDataProvider *dataProvider = XMLDataProvider.new;
+        dataProvider.xmlFileName = @"config";
+        [dataProvider prepareParser];
+        [dataProvider read];
     }
     return self;
 }
