@@ -59,14 +59,17 @@
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string
 {
     if ([self.currentTag isEqualToString:@"background"]) {
-        self.backgroundValue = string;
+        if (![[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
+            self.backgroundValue = string;
+        }
     } else if ([self.currentTag isEqualToString:@"item"]) {
-        [self addItemForAttributes:self.currentAttributes withValue:string];
-        
-        NSLog(@"%@", self.items.lastObject.type);
-        NSLog(@"%@", self.items.lastObject.position);
-        NSLog(@"%@", NSStringFromCGPoint(self.items.lastObject.coordinate));
-        NSLog(@"%@", self.items.lastObject.value);
+        if (![[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
+            [self addItemForAttributes:self.currentAttributes withValue:string];
+            NSLog(@"%@", self.items.lastObject.type);
+            NSLog(@"%@", self.items.lastObject.position);
+            NSLog(@"%@", NSStringFromCGPoint(self.items.lastObject.coordinate));
+            NSLog(@"%@", self.items.lastObject.value);
+        }
     }
 }
 
