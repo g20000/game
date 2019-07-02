@@ -9,29 +9,37 @@
 #import "MainSceneObjC.h"
 #import "CCSprite.h"
 #import "XMLDataProvider.h"
+#import "Item.h"
 
 @interface MainSceneObjC()<XMLDataProviderDelegate>
+
+@property (nonatomic) XMLDataProvider *dataProvider;
 
 @end
 
 @implementation MainSceneObjC
 
+#pragma mark - Lyfecycles
+
 - (instancetype)init
 {
     self = [super init];
     if (self) {
-        // Load background image
-        CCSprite *background = [CCSprite spriteWithImageNamed:@"_room.png"];
-        background.anchorPoint = ccp(0,0);
-        [self addChild:background];
-        
-        XMLDataProvider *dataProvider = XMLDataProvider.new;
-        dataProvider.delegate = self;
-        dataProvider.xmlFileName = @"config";
-        [dataProvider prepareParser];
-        [dataProvider read];
+        [self prepareDataProvider];
     }
     return self;
+}
+
+
+#pragma mark - prepare dataProvider
+
+- (void)prepareDataProvider
+{
+    self.dataProvider = XMLDataProvider.new;
+    self.dataProvider.delegate = self;
+    self.dataProvider.xmlFileName = @"config";
+    [self.dataProvider prepareParser];
+    [self.dataProvider read];
 }
 
 
@@ -39,8 +47,35 @@
 
 - (void)onDataProviderLoaded:(XMLDataProvider *)dataProvider
 {
-    NSLog(@"");
+    [self drawScene];
 }
 
+
+#pragma mark - Draw scene
+
+- (void)drawScene
+{
+    [self drawBackground];
+    [self drawItems];
+}
+
+- (void)drawBackground
+{
+    NSArray *assetPathParts = [self.dataProvider.backgroundValue componentsSeparatedByString:@"/"];
+    CCSprite *background = [CCSprite spriteWithImageNamed:assetPathParts.lastObject];
+    background.anchorPoint = ccp(0,0);
+    [self addChild:background];
+}
+
+- (void)drawItems
+{
+    for (Item *item in self.dataProvider.items) {
+        NSArray *assetPathParts = [item.value componentsSeparatedByString:@"/"];
+        CCSprite *itemSprite = [CCSprite spriteWithImageNamed:assetPathParts.lastObject];
+        itemSprite.position = ccp(item.coordinate.x / 1000, item.coordinate.y / 1000);
+        itemSprite.positionType = CCPositionTypeNormalized;
+        [self addChild:itemSprite];
+    }
+}
 
 @end
