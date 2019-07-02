@@ -73,6 +73,11 @@
     }
 }
 
+- (void)parserDidEndDocument:(NSXMLParser *)parser
+{
+    [self.delegate onDataProviderLoaded:self];
+}
+
 - (void)addItemForAttributes:(NSDictionary *)attributeDict withValue:(NSString *)value
 {
     Item *item = Item.new;
