@@ -67,10 +67,6 @@
     } else if ([self.currentTag isEqualToString:@"item"]) {
         if (![[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] isEqualToString:@""]) {
             [self addItemForAttributes:self.currentAttributes withValue:string];
-            NSLog(@"%@", self.items.lastObject.type);
-            NSLog(@"%@", self.items.lastObject.position);
-            NSLog(@"%@", NSStringFromCGPoint(self.items.lastObject.coordinate));
-            NSLog(@"%@", self.items.lastObject.value);
         }
     }
 }

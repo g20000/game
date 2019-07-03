@@ -76,11 +76,7 @@
 {
     NSArray *assetPathParts = [self.dataProvider.backgroundValue componentsSeparatedByString:@"/"];
     self.background = [CCSprite spriteWithImageNamed:assetPathParts.lastObject];
-    self.background.position = ccp(UIScreen.mainScreen.applicationFrame.size.width / 2, UIScreen.mainScreen.applicationFrame.size.height / 2);
-    
-    UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchGesture:)];
-    [[UIApplication sharedApplication].delegate.window addGestureRecognizer:pinchRecognizer];
-    
+    self.background.position = ccp(UIScreen.mainScreen.applicationFrame.size.width / 2, UIScreen.mainScreen.applicationFrame.size.height / 2);    
     [self addChild:self.background];
 }
 
