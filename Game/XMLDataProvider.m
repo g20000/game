@@ -15,6 +15,7 @@
 
 @property (nonatomic) NSString *backgroundValue;
 @property (nonatomic) NSMutableArray<Item *> *items;
+@property (nonatomic) NSMutableArray *coordinates;
 
 @property (nonatomic) NSString *currentTag;
 @property (nonatomic) NSDictionary *currentAttributes;
@@ -30,6 +31,7 @@
     self = [super init];
     if (self) {
         self.items = @[].mutableCopy;
+        self.coordinates = @[].mutableCopy;
     }
     return self;
 }
@@ -87,6 +89,8 @@
     NSNumber *x = attributeDict[@"x"];
     NSNumber *y = attributeDict[@"y"];
     item.coordinate = CGPointMake(x.floatValue, y.floatValue);
+    
+    [self.coordinates addObject:[NSValue valueWithCGPoint:item.coordinate]];
     
     item.value = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     

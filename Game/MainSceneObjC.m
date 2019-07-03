@@ -18,6 +18,8 @@
 
 @property (nonatomic) CCSprite *background;
 
+@property (nonatomic) NSMutableArray *coordinates;
+
 @end
 
 @implementation MainSceneObjC
@@ -29,8 +31,15 @@
     self = [super init];
     if (self) {
         [self prepareDataProvider];
+        [self addPinchGestureRecognizer];
     }
     return self;
+}
+
+- (void)addPinchGestureRecognizer
+{
+    UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchGesture:)];
+    [[UIApplication sharedApplication].delegate.window addGestureRecognizer:pinchRecognizer];
 }
 
 
@@ -50,6 +59,7 @@
 
 - (void)onDataProviderLoaded:(XMLDataProvider *)dataProvider
 {
+    self.coordinates = self.dataProvider.coordinates.copy;
     [self drawScene];
 }
 
@@ -66,7 +76,7 @@
 {
     NSArray *assetPathParts = [self.dataProvider.backgroundValue componentsSeparatedByString:@"/"];
     self.background = [CCSprite spriteWithImageNamed:assetPathParts.lastObject];
-    self.background.anchorPoint = ccp(0, 0);
+    self.background.position = ccp(UIScreen.mainScreen.applicationFrame.size.width / 2, UIScreen.mainScreen.applicationFrame.size.height / 2);
     
     UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchGesture:)];
     [[UIApplication sharedApplication].delegate.window addGestureRecognizer:pinchRecognizer];
@@ -76,7 +86,10 @@
 
 - (void)handlePinchGesture:(UIPinchGestureRecognizer *)recognizer
 {
-    self.background.scale = recognizer.scale;
+    const float scalingMaximum = 1.3;
+    if (recognizer.scale <= scalingMaximum) {
+        self.background.scale = recognizer.scale;
+    }
 }
 
 - (void)drawItems
@@ -90,9 +103,22 @@
 {
     NSArray *assetPathParts = [item.value componentsSeparatedByString:@"/"];
     CCSprite *itemSprite = [CCSprite spriteWithImageNamed:assetPathParts.lastObject];
-    itemSprite.position = ccp(item.coordinate.x / 1000, item.coordinate.y / 1000);
+    
+    int randomCoordinateIndex = (arc4random() % self.coordinates.count);
+    CGPoint itemCoordinate = [self.coordinates[randomCoordinateIndex] CGPointValue];
+    
+    const int normalizationDivisor = 1000;
+    itemSprite.position = ccp(itemCoordinate.x / normalizationDivisor, itemCoordinate.y / normalizationDivisor);
+    self.coordinates = [self removeObjectFromArray:self.coordinates withIndex:randomCoordinateIndex];
+    
     itemSprite.positionType = CCPositionTypeNormalized;
     [self.background addChild:itemSprite];
+}
+
+- (NSMutableArray *)removeObjectFromArray:(NSMutableArray *)array withIndex:(NSInteger) index {
+    NSMutableArray *modifyableArray = [[NSMutableArray alloc] initWithArray:array];
+    [modifyableArray removeObjectAtIndex:index];
+    return [[NSMutableArray alloc] initWithArray:modifyableArray];
 }
 
 @end

@@ -27,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readonly) NSString *backgroundValue;
 @property (nonatomic, readonly) NSMutableArray<Item *> *items;
+@property (nonatomic, readonly) NSMutableArray *coordinates;
 
 - (void)prepareParser;
 - (void)read;
