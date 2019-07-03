@@ -8,6 +8,7 @@
 
 #import "MainSceneObjC.h"
 #import "CCSprite.h"
+#import "CCSpriteFrame.h"
 #import "XMLDataProvider.h"
 #import "Item.h"
 
@@ -65,20 +66,33 @@
 {
     NSArray *assetPathParts = [self.dataProvider.backgroundValue componentsSeparatedByString:@"/"];
     self.background = [CCSprite spriteWithImageNamed:assetPathParts.lastObject];
-    self.background.anchorPoint = ccp(0,0);
-    self.background.scaleType = CCScaleTypePoints;
+    self.background.anchorPoint = ccp(0, 0);
+    
+    UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchGesture:)];
+    [[UIApplication sharedApplication].delegate.window addGestureRecognizer:pinchRecognizer];
+    
     [self addChild:self.background];
+}
+
+- (void)handlePinchGesture:(UIPinchGestureRecognizer *)recognizer
+{
+    self.background.scale = recognizer.scale;
 }
 
 - (void)drawItems
 {
     for (Item *item in self.dataProvider.items) {
-        NSArray *assetPathParts = [item.value componentsSeparatedByString:@"/"];
-        CCSprite *itemSprite = [CCSprite spriteWithImageNamed:assetPathParts.lastObject];
-        itemSprite.position = ccp(item.coordinate.x / 1000, item.coordinate.y / 1000);
-        itemSprite.positionType = CCPositionTypeNormalized;
-        [self.background addChild:itemSprite];
+        [self drawItem:item];
     }
+}
+
+- (void)drawItem:(Item *)item
+{
+    NSArray *assetPathParts = [item.value componentsSeparatedByString:@"/"];
+    CCSprite *itemSprite = [CCSprite spriteWithImageNamed:assetPathParts.lastObject];
+    itemSprite.position = ccp(item.coordinate.x / 1000, item.coordinate.y / 1000);
+    itemSprite.positionType = CCPositionTypeNormalized;
+    [self.background addChild:itemSprite];
 }
 
 @end
