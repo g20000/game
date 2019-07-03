@@ -31,15 +31,27 @@
     self = [super init];
     if (self) {
         [self prepareDataProvider];
-        [self addPinchGestureRecognizer];
+        [self addGestureRecognizers];
     }
     return self;
+}
+
+- (void)addGestureRecognizers
+{
+    [self addPinchGestureRecognizer];
+    [self addPanGestureRecognizer];
 }
 
 - (void)addPinchGestureRecognizer
 {
     UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchGesture:)];
     [[UIApplication sharedApplication].delegate.window addGestureRecognizer:pinchRecognizer];
+}
+
+- (void)addPanGestureRecognizer
+{
+    UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
+    [[UIApplication sharedApplication].delegate.window addGestureRecognizer:panRecognizer];
 }
 
 
@@ -76,17 +88,10 @@
 {
     NSArray *assetPathParts = [self.dataProvider.backgroundValue componentsSeparatedByString:@"/"];
     self.background = [CCSprite spriteWithImageNamed:assetPathParts.lastObject];
-    self.background.position = ccp(UIScreen.mainScreen.applicationFrame.size.width / 2, UIScreen.mainScreen.applicationFrame.size.height / 2);    
+    self.background.position = ccp(UIScreen.mainScreen.applicationFrame.size.width / 2, UIScreen.mainScreen.applicationFrame.size.height / 2);
     [self addChild:self.background];
 }
 
-- (void)handlePinchGesture:(UIPinchGestureRecognizer *)recognizer
-{
-    const float scalingMaximum = 1.3;
-    if (recognizer.scale <= scalingMaximum) {
-        self.background.scale = recognizer.scale;
-    }
-}
 
 - (void)drawItems
 {
@@ -115,6 +120,26 @@
     NSMutableArray *modifyableArray = [[NSMutableArray alloc] initWithArray:array];
     [modifyableArray removeObjectAtIndex:index];
     return [[NSMutableArray alloc] initWithArray:modifyableArray];
+}
+
+
+#pragma mark - Actions
+
+- (void)handlePinchGesture:(UIPinchGestureRecognizer *)recognizer
+{
+    const float scalingMaximum = 1.3;
+    if (recognizer.scale <= scalingMaximum) {
+        self.background.scale = recognizer.scale;
+    }
+}
+
+- (void)handlePanGesture:(UIPanGestureRecognizer *)recognizer
+{
+    if ((recognizer.state == UIGestureRecognizerStateBegan) || (recognizer.state == UIGestureRecognizerStateChanged)) {
+        CGPoint t = [recognizer translationInView:recognizer.view];
+        [recognizer setTranslation:CGPointZero inView:recognizer.view];
+        self.background.position = CGPointMake(self.background.position.x + t.x, self.background.position.y - t.y);
+    }
 }
 
 @end
